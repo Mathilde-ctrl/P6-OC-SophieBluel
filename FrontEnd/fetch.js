@@ -1,82 +1,94 @@
 // Les projets s’affichent dans la galerie en provenant du back-end et en récupérant : .imagesURL et .title
 
 /**
- * (fetch...) Lance une requête réseau vers Url de API work GET pour récupérer les données 
- *            et renvoie une promesse 
- * (.then(response...)) Convertit les données dans url au format JSON
- * (.then(datafiltre...)) datafiltre représente les données JSON extraite
+ * fetch : fonction JS qui envoye une requête HTTP vers l'Url
+ * then : représente la réponse de API renvoyée par la requête, 
+   APIresponse.json() renvoie une promesse. Transforme la réponse http en Json
+ * tousProjetsJSON : représente l'ensemble des données 
  */
 
-
-
 fetch('http://localhost:5678/api/works') 
-  .then(response => response.json())
-  .then(datafiltre => {
-    const galleryElement = document.querySelector('.gallery');
-    //Assigne à ma classe gallery une variable
+  .then(APIresponse => APIresponse.json())
+  .then(tousProjetsJSON => {   
     
-    function displayProjects(projects) {
-      galleryElement.innerHTML = ''; 
-      // Efface la galerie existante pour assurer que seule la catégorie séléctionné est afficher.
+    //Déclare mes fonctions ----------------------------------------------------------------------------------------------
+
+    //Fonction pour afficher les images et titres
+    function afficheProjetsGalerie(catégorisationDesProjets) {
+      const HTMLgalleryElement = document.querySelector('.gallery');      //Assigne une classe à la variable
+      HTMLgalleryElement.innerHTML = '';              // Efface la gallerie existante pour assurer que seule la catégorie sélectionnée est affichée.
   
-      projects.forEach(project => {
-        //Boucle itère sur chaque élément du projects
-        const figureElement = document.createElement('figure');
-  
-        const imgElement = document.createElement('img');
-        imgElement.src = project.imageUrl;
-        imgElement.alt = project.title;
+      for (let i = 0; i < catégorisationDesProjets.length; i++){       // Boucle pour créer une figure et une img avec src et alt pour chaque élements.
+        const projet = catégorisationDesProjets[i];
+        const JSfigureElement = document.createElement('figure');
+        const JSimgElement = document.createElement('img');
+
+        JSimgElement.src = projet.imageUrl;
+        JSimgElement.alt = projet.title;
         
-        const figcaptionElement = document.createElement('figcaption');
-        figcaptionElement.textContent = project.title;
-        
-        figureElement.appendChild(imgElement);
-        figureElement.appendChild(figcaptionElement);
-        
-        galleryElement.appendChild(figureElement);
-      });
+        JSfigureElement.appendChild(JSimgElement);
+        HTMLgalleryElement.appendChild(JSfigureElement);
+      };
     }
-  
+
     // Fonction pour filtrer les projets par catégorie
-    function filterName(categoryId) {
-      if (categoryId === null) {
-        displayProjects(datafiltre); // Afficher tous les projets
+    function filtreMesProjets(identifiant) {
+      if (identifiant === null) {
+        afficheProjetsGalerie(tousProjetsJSON); // Afficher tous les projets
       } else {
-        const filteredProjects = datafiltre.filter(project => project.categoryId === categoryId);
-        displayProjects(filteredProjects); // Afficher les projets filtrés
+        const mesProjetsFiltres = tousProjetsJSON.filter(chaqueElement => chaqueElement.categoryId === identifiant);
+        // Filtre les projets dans tousProjetsJSON pour ne conserver que ceux dont le 'idendifiant' est égale a la propriété categoryID
+        // Le résultat du filtrage est contenu dans la variable "mesProjetsFiltres"
+        afficheProjetsGalerie(mesProjetsFiltres); // Afficher les projets filtrés 
       }
     }
-  
-    // Créer les boutons de filtre
-    const filtre = document.querySelector(".filtre");
+    //-------------------------------------------------------------------------------------------------------------------
+
+    const divFiltre = document.querySelector(".filtre");
+
+    // Création du Bouton "Tous"
+    const tousBouton = document.createElement('button');
+    tousBouton.textContent = "Tous";
+    tousBouton.classList.add('active');
+    divFiltre.appendChild(tousBouton);
+
+    //Evenement au click du bouton "Tous" pour lancer la fonction Fonction filtreMesProjets(null) et toggle la classe.
+    tousBouton.addEventListener('click', () => {
+      filtreMesProjets(null);
+      const buttons = document.querySelectorAll('.filtre button');
+      for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
+        button.classList.toggle('active', button === tousBouton);
+      }
+    });
+
     const uniqueFiltre = new Set();
-  
-    datafiltre.forEach(project => {
-      if (!uniqueFiltre.has(project.category.name)){
-        uniqueFiltre.add(project.category.name);
-        // ! = opérateur négation qui inverse la valeur true or false
-        //permet de vérifier que le nom n'est pas déjà afficher
-        const buttonFilters = document.createElement('button');
-        buttonFilters.textContent = project.category.name;
-        filtre.appendChild(buttonFilters);
-  
-        buttonFilters.addEventListener('click', () => {
-          filterName(project.categoryId);
+
+    for (let i = 0; i < tousProjetsJSON.length; i++) {    // Boucle qui itère chaque élement de tousProjetsJSON 
+      const tousProject = tousProjetsJSON[i];
+
+      if (!uniqueFiltre.has(tousProject.category.name)) { 
+      // Condition pour éviter les doublons. "!" = inverse la valeur true or false
+      // Condition = true si le .name n'est pas déjà present dans le set 
+        uniqueFiltre.add(tousProject.category.name);
+        //Ajout de .name dans le set si remplie la condition en haut
+
+        const boutonAvecCategorie = document.createElement('button');
+        boutonAvecCategorie.textContent = tousProject.category.name;
+        divFiltre.appendChild(boutonAvecCategorie);
+
+        //Evenement au click des boutons catégorisé pour lancer la fonction Fonction filtreMesProjets(project.categoryId) et toggle la classe.
+        boutonAvecCategorie.addEventListener('click', () => {
+          filtreMesProjets(tousProject.categoryId);
+          const buttons = document.querySelectorAll('.filtre button');
+          for (let j = 0; j < buttons.length; j++) {
+            const button = buttons[j];
+            button.classList.toggle('active', button === boutonAvecCategorie);
+          }
         });
       }
-    });
-  
-    // Ajout du bouton "Tous" pour afficher l'ensemble des projets
-    const tousButton = document.createElement('button');
-    tousButton.textContent = "Tous";
-    filtre.appendChild(tousButton);
-  
-    tousButton.addEventListener('click', () => {
-      filterName(null);
-      //Null pour afficher tous les projets disponible
-      //Null = sans filtre appliqué
-    });
-  
+    }
     // Afficher tous les projets au chargement de la page
-    displayProjects(datafiltre);
-});
+    afficheProjetsGalerie(tousProjetsJSON);
+  });
+
