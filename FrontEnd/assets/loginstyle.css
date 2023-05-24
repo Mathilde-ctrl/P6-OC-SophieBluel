@@ -7,6 +7,7 @@ body{
   margin: auto;
   padding-top: 140px;
   text-align: center;
+	
 }
 
 #login h2{
@@ -29,12 +30,16 @@ body{
 	margin: 2em 0 0.5em 0;
 }
 
+#login #message{
+	margin-top: 15px;
+}
+
 input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 2.5em auto ;
 	width: 180px;
 	text-align: center;
 	border-radius: 50px ;
@@ -49,6 +54,9 @@ input[type="submit"]{
   text-decoration: underline;
   padding-bottom: 50px;
   font-family: 'Work Sans';
-  margin-bottom: 100px;
+  margin-bottom: 80px;
 }
 
+.ongletlogin{
+	font-weight: bold ;
+}

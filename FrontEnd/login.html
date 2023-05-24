@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
 	<meta name="description" content="">
@@ -15,9 +15,9 @@
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<a href="#portfolio">projets</a>
-			<a href="#contact">contact</a>
-			<a href="login.html">login</a>
+			<a href="index.html#portfolio">projets</a>
+			<a href="index.html#contact">contact</a>
+			<a class="ongletlogin" href="login.html">login</a>
 			<a><img src="./assets/icons/instagram.png" alt="Instagram"></a>
 		</ul>
 	</nav>
@@ -29,7 +29,9 @@
 		<input type="email" name="email" id="email">
 		<label for="password">Mot de passe</label>
 		<input type="password" name="password" id="password">
+		<div id="message"> </div>
 		<input type="submit" value="Se connecter">
+		
     <a id="forgot" href="#">Mot de passe oublié</a>
 	</form>
 </section>
@@ -40,5 +42,6 @@
 		</ul>
 	</nav>
 </footer>
+<script src="userlogin.js"></script>
 </body>
 </html>
