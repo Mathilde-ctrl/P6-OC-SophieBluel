@@ -130,6 +130,7 @@ a:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+	position: relative;
 }
 .gallery {
 	width: 100%;
@@ -225,8 +226,68 @@ footer nav ul {
 	cursor: pointer;
 }
 
- .filtre .active{
+.filtre .active{
 	color: white;
 	background-color: #1D6154;
 	border: 0;
+}
+
+.edition{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20px;
+	background-color:black;
+	color: #fffef8;
+	padding: 1em;
+	font-family: 'Work sans';
+	font-size: 17px;	
+	font-weight: 300;
+}
+
+.edition .icon{
+	margin-right: 0.5em;
+}
+
+.edition button{
+	margin-left: 1em;
+}
+
+.edition .publier{
+	padding: 0.5em 1em;
+	border-radius: 50px;
+	background-color: white;
+	font-size: 14px;
+	color: black;
+	font-weight:400;
+	border-style: solid;
+	cursor: pointer;
+}
+
+figure .modifier{
+	display: flex;
+	margin-left: 55px;
+	margin-top: 10px;
+	font-size: 16px;
+	text-decoration: none;
+	color: black;
+	
+}
+.modifier .icon{
+	margin-right: 0.5em;
+}
+
+.edit .filtre{
+	display:none;
+}
+
+#portfolio .modifier{
+	display: flex;
+	position: absolute;
+	right: 35%;
+	top: 82.5%;
+	font-size: 16px;
+	text-decoration: none;
+	color: black;
+	
 }
