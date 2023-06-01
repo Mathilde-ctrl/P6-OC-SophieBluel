@@ -22,12 +22,16 @@ fetch('http://localhost:5678/api/works')
         const projet = catégorisationDesProjets[i];
         const JSfigureElement = document.createElement('figure');
         const JSimgElement = document.createElement('img');
+        const JStextElement = document.createElement('p');
 
         JSimgElement.src = projet.imageUrl;
         JSimgElement.alt = projet.title;
-        
+        JStextElement.innerHTML = projet.title;
+
         JSfigureElement.appendChild(JSimgElement);
+        JSfigureElement.appendChild(JStextElement);
         HTMLgalleryElement.appendChild(JSfigureElement);
+        
       };
     }
 

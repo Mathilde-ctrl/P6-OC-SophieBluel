@@ -1,0 +1,140 @@
+.modal{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+}
+
+.fenetremodal{
+  background-color:white ;
+  width: 630px;
+  height: 731px;
+  padding: 35px;
+  padding-bottom: 0;
+  
+  border-radius: 10px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.fenetremodal .x-close{
+  display: flex;
+  justify-content: flex-end;
+  /* Check the cursor pointer is on all the lign*/
+}
+
+.x-close:before{
+  cursor: pointer;
+}
+
+#titreModal{
+  display: flex;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.bodymodal{
+  padding: 46px 65px 65px;
+  padding-bottom: 0;
+}
+
+.bodymodal .gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-row-gap: 14px;
+  grid-column-gap: 8px;
+}
+
+.bodymodal figure img{
+  width: 80px; 
+}
+
+.bodymodal .conteneurIcons{
+  height: 0;
+}
+
+.bodymodal .poubelle{
+  color: white;
+  background-color: black;
+  position: relative;
+  left: 55px;
+  bottom: 115px;
+  
+  padding: 4px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.bodymodal .ordre-des-icons{
+  display: none;
+  color: white;
+  background-color: black;
+  position: relative;
+  bottom: 115px;
+  left: 5px;
+  padding: 4px;
+  border-radius: 2px;
+  cursor: grab;
+}
+
+.bodymodal figure:hover .ordre-des-icons{
+  display:inline-block  
+}
+
+.bodymodal .modalTextEdit{
+  text-decoration: none;
+  color: black;
+  font-size: 12px;
+  font-family: 'Work Sans';
+}
+
+.bodymodal .ligne{
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  border-bottom: 1px solid #B3B3B3;
+  margin-top: 67px;
+  margin-bottom: 38px;
+  box-sizing: border-box;
+}
+
+.bodymodal button{
+  display: flex;
+  margin: auto;
+  margin-bottom: 23px;
+}
+
+.ajoutImage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:'syne' ;
+  font-weight: 700;
+  color: white;
+  background-color: #1D6154;
+  width: 237px;
+  height: 36px;
+  border-radius: 50px;
+  cursor: pointer;
+
+}
+
+.supprimeGallery{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:'syne' ;
+  font-weight: 400;
+  font-size: 14px;
+  color: #D65353;
+  background-color:white;
+  border: none;
+  cursor: pointer;
+}

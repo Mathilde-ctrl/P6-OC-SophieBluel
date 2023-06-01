@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Work+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modal.css">
   <script src="https://kit.fontawesome.com/f3fe98a041.js" crossorigin="anonymous"></script>
   
 </head>
@@ -47,13 +48,27 @@
     
 	</section>
 	<section id="portfolio" >
-		<h2>Mes Projets</h2>
-    <a class="modifier" href="#">
-      <i class="fa-regular fa-pen-to-square icon"></i>
-      <p >Modifier</p>
-    </a>
+		<div class="titre">
+			<h2>Mes Projets</h2>
+    	<a class="modifier lienmodal" href="#modal">
+      	<i class="fa-regular fa-pen-to-square icon"></i>
+      	<p >Modifier</p>
+    	</a>
+		</div>
 		<div class="filtre"></div> 
 		<div class="gallery"></div>
+		<aside id="modal" class="modal" role="dialog" aria-hidden="true" style="display: none;"  >
+			<div class="fenetremodal">
+				<i class="fa-solid fa-xmark x-close"></i>
+				<p id="titreModal">Galerie photo</p>
+				<div class="bodymodal">
+					<div class="gallery"></div>
+					<div class="ligne"></div>
+					<button class="ajoutImage">Ajouter une photo</button>
+					<button class="supprimeGallery">Supprimer la galerie</button>
+				</div>
+			</div>
+		</aside>
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -79,5 +94,6 @@
 </footer>
 <script src="fetch.js" ></script>
 <script src="logout.js"></script>
+<script src="modal.js"></script>
 </body>
 </html>

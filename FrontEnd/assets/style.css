@@ -4,7 +4,7 @@
 */
 
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h2, h3,h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -127,10 +127,10 @@ a:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
+.visiteur #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
-	position: relative;
+	
 }
 .gallery {
 	width: 100%;
@@ -281,13 +281,17 @@ figure .modifier{
 	display:none;
 }
 
+#portfolio .titre {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 1em;
+	font-size: 16px;
+}
+
 #portfolio .modifier{
 	display: flex;
-	position: absolute;
-	right: 35%;
-	top: 82.5%;
-	font-size: 16px;
 	text-decoration: none;
 	color: black;
-	
-}
+	margin-left: 1em;
+} 
