@@ -138,3 +138,170 @@
   border: none;
   cursor: pointer;
 }
+
+.retour-fleche{
+  cursor: pointer;
+}
+
+#titreModal2{
+  display: flex;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 400;
+  margin-top: 10px;
+}
+
+.modal2-ajout-image{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  width: 420px;
+  height: 169px;
+  background-color: #E8F1F6;
+  margin-bottom: 30px;
+  border-radius: 3px;
+}
+
+.file-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 173px;
+  height: 36px;
+  cursor: pointer;
+}
+
+.file-input label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  border-radius: 50px;
+  background-color: #CBD6DC;
+
+  font-family: 'Work sans';
+  font-weight: 500;
+  font-size: 14px;
+  color: #306685;
+
+  margin-bottom: 7px;
+  width: 173px;
+  height: 36px;
+}
+
+.file-input .detail{
+  font-size: 10px;
+}
+
+.montagne{
+  box-sizing: border-box;
+}
+
+.montagne .rectangle{
+  border: 3px solid #B9C5CC;
+  height:46px;
+  width: 58px;
+
+  margin-top: 28px;
+  margin-bottom: 21px;
+}
+
+.montagne .cercle{
+  position: relative;
+  top: 10px;
+  left: 10px;
+
+  border: 3px solid #B9C5CC;
+  border-radius: 50px;
+
+  width: 11px;
+  height: 11px;
+}
+
+.montagne .sommet1{
+  position: relative;
+  top: 15px;
+  left: 15px;
+  border-top: 3px solid #B9C5CC;
+  border-right: 3px solid #B9C5CC;
+
+  width: 17px;
+  height: 13px ;
+
+  transform: rotate(-45deg);
+}
+
+.montagne .sommet2{
+  position: relative;
+  bottom: 5px;
+  left: 33px;
+  border-top: 3px solid #B9C5CC;
+  border-right: 3px solid #B9C5CC;
+
+  width: 14px;
+  height: 10px ;
+
+  transform: rotate(-45deg);
+}
+
+.description-projet{
+  display: flex;
+  flex-direction: column;
+}
+
+.description-projet input, .description-projet select{
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  margin-bottom: 21px;
+}
+
+.description-projet label{
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.validerImage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family:'syne' ;
+  font-weight: 700;
+  color: white;
+
+  background-color: #A7A7A7;
+  width: 237px;
+  height: 36px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.description-projet select{
+  -webkit-appearance: none; 
+  -moz-appearance: none; 
+  appearance: none;  
+   
+}
+
+.menu-down{
+  position: relative;
+  left: 320px;
+  top: 45px;
+  color: #C6C6C6;
+  pointer-events: none;
+}

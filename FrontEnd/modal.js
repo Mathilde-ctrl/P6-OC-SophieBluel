@@ -1,29 +1,72 @@
-//Ouvre ma boite modale
+//Ma boite de dialogue modale 
 
-//La balise aside 
+//Les balises <aside>
 const modal = document.getElementById('modal');
-//Le lien d'ouverture dans a 
+const modal2 =document.getElementById('modal2');
+
+//Le lien d'ouverture de la modale dans <a>
 const lienModal = document.querySelector('.lienmodal');
 
-const closeIcon = document.querySelector('.x-close');
+//Le bouton dans modal qui envoie a modal2
+const btnAjoutImage = document.getElementById('btnAjoutImage');
 
-function openModal(event) {
-  //event.preventDefault();
+//L'icon fléche retour qui renvoie a modal
+const retourFleche = document.querySelector('.retour-fleche');
+
+//Les icons pour fermer les modales
+const closeIcons = document.getElementsByClassName('x-close');
+
+//Ouvre modal
+function openModal() {
   modal.style.display = 'flex';
+  modal2.style.display = "none";
 }
 
-function closeModal() {
+//Passage entre modal et modal2
+function betweenModal(){
   modal.style.display = 'none';
+  modal2.style.display = "flex";
 }
 
-lienModal.addEventListener('click', openModal);
-closeIcon.addEventListener('click', closeModal); // to change after 
-window.addEventListener('click', function(event){
-  if(event.target === modal){
-    closeModal();
+//Retour de modal2 à modal 
+function returnModal(){
+  modal.style.display = 'flex';
+  modal2.style.display = "none";
+}
+
+//Fermeture des modales
+function closeModal(event) {
+  if (modal.contains(event.target)){
+    modal.style.display = 'none';
+  } else if (modal2.contains(event.target)) {
+    modal2.style.display = 'none';
   }
+}
+
+// évenements d'écoute du lien 
+lienModal.addEventListener('click', openModal);
+
+//évenement d'écoute du bouton dans modal
+btnAjoutImage.addEventListener('click',betweenModal)
+
+//évenement d'écoute du de l'icon fleche
+retourFleche.addEventListener('click',returnModal )
+
+//Boucle pour récupérer tout les x-close icons et ajout évenement d'écoute
+for(let i = 0; i < closeIcons.length; i++){
+  closeIcons[i].addEventListener('click', closeModal);
+}
+
+// évenements d'écoute au moment du click en dehors des modales
+window.addEventListener('click', function(event) {
+  if (event.target !== modal && event.target !== modal2) {
+    return;
+  }
+  closeModal(event);
 });
 
+
+//-------------------------------------------------------
 //Génère les projets
 fetch('http://localhost:5678/api/works') 
   .then(APIresponse => APIresponse.json())
