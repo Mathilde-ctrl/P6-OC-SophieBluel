@@ -38,8 +38,10 @@ function returnModal(){
 function closeModal(event) {
   if (modal.contains(event.target)){
     modal.style.display = 'none';
+    //location.reload();
   } else if (modal2.contains(event.target)) {
     modal2.style.display = 'none';
+    //location.reload();
   }
 }
 
@@ -65,37 +67,134 @@ window.addEventListener('click', function(event) {
   closeModal(event);
 });
 
-
 //-------------------------------------------------------
-//Génère les projets
-fetch('http://localhost:5678/api/works') 
-  .then(APIresponse => APIresponse.json())
-  .then(tousProjetsJSON => {   
-    function afficheProjetsGalerie(projets) {
-      const HTMLgalleryElement = document.querySelector('#modal .gallery');      //Assigne une classe à la variable
-  
-      for (let i = 0; i < projets.length; i++){       // Boucle pour créer une figure et une img avec src et alt pour chaque élements.
-        const projet = projets[i];
-        const JSfigureElement = document.createElement('figure');
-        const JSimgElement = document.createElement('img');
-        const JsTextElement = document.createElement('a');
-        const JsIconsElement = document.createElement('div')
+//Affiche les projets dans la modale avec les fonctionnalités supprimer 
 
-        JSimgElement.src = projet.imageUrl;
-        JSimgElement.alt = projet.title;
+function afficheProjetsGalerie(projets) {
+  const HTMLgalleryElement = document.querySelector('#modal .gallery');
 
-        JsTextElement.innerText = "éditer";
-        JsTextElement.href = "#"
-        JsTextElement.className = "modalTextEdit"
+  for (let i = 0; i < projets.length; i++) {
+    const projet = projets[i];
+    const JsfigureElement = document.createElement('figure');
+    const JsimgElement = document.createElement('img');
+    const JsTextElement = document.createElement('a');
+    const JsIconsConteneur = document.createElement('div');
+    const JsIconPoubelle = document.createElement('i');
+    const JsIconDirection = document.createElement('i');
+    const idprojet = projet.id;
 
-        JsIconsElement.innerHTML = '<i class="fa-solid fa-trash-can poubelle"></i> <i class="fa-solid fa-arrows-up-down-left-right ordre-des-icons"></i>';
-        JsIconsElement.className = "conteneurIcons"
+    JsimgElement.src = projet.imageUrl;
+    JsimgElement.alt = projet.title;
 
-        JSfigureElement.appendChild(JSimgElement);
-        JSfigureElement.appendChild(JsTextElement);
-        JSfigureElement.appendChild(JsIconsElement);
-        HTMLgalleryElement.appendChild(JSfigureElement);
-      };
+    JsTextElement.innerText = 'éditer';
+    JsTextElement.href = '#';
+    JsTextElement.className = 'modalTextEdit';
+
+    JsIconsConteneur.className = 'conteneurIcons';
+
+    JsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
+    JsIconPoubelle.setAttribute('data-projet', idprojet);
+
+    JsIconPoubelle.addEventListener('click', () => {
+      supprimerProjet(idprojet)
+        .then(() => {
+          JsfigureElement.remove();
+        })
+        .catch(error => {
+          console.error('Problème pour supprimer un projet:', error);
+        });
+    });
+
+    JsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
+
+    JsfigureElement.appendChild(JsimgElement);
+    JsfigureElement.appendChild(JsTextElement);
+    JsfigureElement.appendChild(JsIconsConteneur);
+    JsIconsConteneur.appendChild(JsIconPoubelle);
+    JsIconsConteneur.appendChild(JsIconDirection);
+    HTMLgalleryElement.appendChild(JsfigureElement);
+  }
+}
+const token = sessionStorage.getItem('token')
+
+function supprimerProjet(projetId) {
+  return fetch(`http://localhost:5678/api/works/${projetId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
     }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Problème pour supprimer un projet');
+      }
+    });
+}
+
+fetch('http://localhost:5678/api/works',{
+  method:'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`,
+  }
+})
+  .then(APIresponse => APIresponse.json())
+  .then(tousProjetsJSON => {
     afficheProjetsGalerie(tousProjetsJSON);
-});
+  });
+
+  //--------------------------------------------------------------------------------------------
+  // Affiche image une fois sélectionné 
+
+  const photoInput = document.getElementById('photo');
+  
+
+  photoInput.addEventListener('change', function(event){
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    const imageTelecharge = document.getElementById('selectionImage');
+    const labelPhoto = document.getElementById('labelPhoto')
+
+    labelPhoto.style.display = "none";
+
+    reader.onload = function(e) {
+      imageTelecharge.src = e.target.result;
+    };
+  
+    reader.readAsDataURL(file);
+
+  });
+//--------------------------------------------------------------------------------------------
+// 
+
+
+//--------------------------------------------------------------------------------------------
+//Ajoute l'image à la base de donnée API 
+//Ne fonctionne pas pour le moment.
+
+  document.getElementById('imageForm').addEventListener('submit',function(event) {
+    event.preventDefault();
+
+    const photo = document.getElementById('photo').files[0];
+    const titre = document.getElementById('titreduproject').value;
+    const categoryId = document.getElementById('categorieduprojet').value;
+    const token = sessionStorage.getItem('token');
+
+    const formData = new FormData();
+    formData.append('image', photo);
+    formData.append('title', titre);
+    formData.append('categoryId', categoryId );
+
+    fetch('http://localhost:5678/api/works', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      
+    })
+    .then(APIresponse => APIresponse.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+  })

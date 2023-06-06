@@ -20,17 +20,17 @@ fetch('http://localhost:5678/api/works')
   
       for (let i = 0; i < catégorisationDesProjets.length; i++){       // Boucle pour créer une figure et une img avec src et alt pour chaque élements.
         const projet = catégorisationDesProjets[i];
-        const JSfigureElement = document.createElement('figure');
-        const JSimgElement = document.createElement('img');
-        const JStextElement = document.createElement('p');
+        const JsfigureElement = document.createElement('figure');
+        const JsimgElement = document.createElement('img');
+        const JstextElement = document.createElement('p');
 
-        JSimgElement.src = projet.imageUrl;
-        JSimgElement.alt = projet.title;
-        JStextElement.innerHTML = projet.title;
+        JsimgElement.src = projet.imageUrl;
+        JsimgElement.alt = projet.title;
+        JstextElement.innerHTML = projet.title;
 
-        JSfigureElement.appendChild(JSimgElement);
-        JSfigureElement.appendChild(JStextElement);
-        HTMLgalleryElement.appendChild(JSfigureElement);
+        JsfigureElement.appendChild(JsimgElement);
+        JsfigureElement.appendChild(JstextElement);
+        HTMLgalleryElement.appendChild(JsfigureElement);
         
       };
     }
@@ -95,4 +95,6 @@ fetch('http://localhost:5678/api/works')
     // Afficher tous les projets au chargement de la page
     afficheProjetsGalerie(tousProjetsJSON);
   });
+
+//------------------------------------------------------------------------------------------
 
