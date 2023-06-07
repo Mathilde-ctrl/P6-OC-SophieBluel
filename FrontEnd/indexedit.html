@@ -100,11 +100,14 @@
 								Catégorie 
 								<i class="fa-solid fa-chevron-down fa-xl menu-down"></i>
 							</label>
-							<select name="categorieduprojet" id="categorieduprojet">
+							<select name="categorieduprojet" id="categorieduprojet" required>
 								<option value=""></option>
+								<option id="nouvelleCategorie" value="">- Nouvelle Catégorie -</option>
 							</select>
 						</div>
+						
 						<div class="ligne"></div>
+						<div id="reponseForm"></div>
 						<button type="submit" id="validerAjoutImage" class="validerImage">Valider</button>
 					</form>
 				</div>

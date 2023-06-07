@@ -81,7 +81,7 @@ fetch('http://localhost:5678/api/works')
         boutonAvecCategorie.textContent = tousProject.category.name;
         divFiltre.appendChild(boutonAvecCategorie);
 
-        //Evenement au click des boutons catégorisé pour lancer la fonction Fonction filtreMesProjets(project.categoryId) et toggle la classe.
+        //Evenement au click des boutons catégorisé pour lancer la Fonction filtreMesProjets(project.categoryId) et toggle la classe.
         boutonAvecCategorie.addEventListener('click', () => {
           filtreMesProjets(tousProject.categoryId);
           const buttons = document.querySelectorAll('.filtre button');

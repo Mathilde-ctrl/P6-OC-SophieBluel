@@ -270,6 +270,7 @@
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   margin-bottom: 21px;
+  padding-left: 20px;
 }
 
 .description-projet label{
@@ -317,4 +318,16 @@
   z-index: 1;
 }
 
+.validerImage-active{
+  background-color: #1D6154;
+}
 
+#reponseForm{ 
+  position: relative;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+  
+
+
+}

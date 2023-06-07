@@ -72,6 +72,8 @@ window.addEventListener('click', function(event) {
 
 function afficheProjetsGalerie(projets) {
   const HTMLgalleryElement = document.querySelector('#modal .gallery');
+  const categorieduprojet = document.getElementById('categorieduprojet')  //
+  const categorieUnique = new Set();
 
   for (let i = 0; i < projets.length; i++) {
     const projet = projets[i];
@@ -82,6 +84,10 @@ function afficheProjetsGalerie(projets) {
     const JsIconPoubelle = document.createElement('i');
     const JsIconDirection = document.createElement('i');
     const idprojet = projet.id;
+    const JsOptionMenu = document.createElement('option');  //
+
+    JsOptionMenu.innerText = projet.category.name;  //
+    JsOptionMenu.value = projet.category.id;  //
 
     JsimgElement.src = projet.imageUrl;
     JsimgElement.alt = projet.title;
@@ -107,12 +113,18 @@ function afficheProjetsGalerie(projets) {
 
     JsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
 
+    if (!categorieUnique.has(projet.category.name)){
+      categorieduprojet.appendChild(JsOptionMenu);
+      categorieUnique.add(projet.category.name);
+    }
+
     JsfigureElement.appendChild(JsimgElement);
     JsfigureElement.appendChild(JsTextElement);
     JsfigureElement.appendChild(JsIconsConteneur);
     JsIconsConteneur.appendChild(JsIconPoubelle);
     JsIconsConteneur.appendChild(JsIconDirection);
     HTMLgalleryElement.appendChild(JsfigureElement);
+
   }
 }
 const token = sessionStorage.getItem('token')
@@ -138,10 +150,10 @@ fetch('http://localhost:5678/api/works',{
     'Authorization': `Bearer ${token}`,
   }
 })
-  .then(APIresponse => APIresponse.json())
-  .then(tousProjetsJSON => {
-    afficheProjetsGalerie(tousProjetsJSON);
-  });
+.then(APIresponse => APIresponse.json())
+.then(tousProjetsJSON => {
+  afficheProjetsGalerie(tousProjetsJSON);
+});
 
   //--------------------------------------------------------------------------------------------
   // Affiche image une fois sélectionné 
@@ -167,34 +179,99 @@ fetch('http://localhost:5678/api/works',{
   });
 //--------------------------------------------------------------------------------------------
 // 
+const categorieduprojet = document.getElementById('categorieduprojet');
+
+categorieduprojet.addEventListener('change', function() {
+  const selectedOption = this.options[this.selectedIndex];
+  const newCategoryOption = document.getElementById('nouvelleCategorie');
+
+  if (selectedOption === newCategoryOption) {
+    const newCategoryName = prompt('Enter the new category name:');
+
+    const newOption = document.createElement('option');
+    newOption.value = newCategoryName;
+    newOption.text = newCategoryName;
+    this.appendChild(newOption);
+    newOption.selected = true;
+  }
+});
+
+
+//--------------------------------------------------------------------------------
+// Vérifie que les 3 inputs sont complétés et ajoute une classe pour bouton 
+
+const imageForm = document.getElementById('imageForm');
+const titreduprojectInput = document.getElementById('titreduproject');
+const categorieduprojetInput = document.getElementById('categorieduprojet');
+const validerAjoutImageButton = document.getElementById('validerAjoutImage');
+
+// Function to check if all required fields are filled
+function tousLesChampsRemplis() {
+  return photoInput.files.length > 0 && titreduprojectInput.value.trim() !== '' && categorieduprojetInput.value !== '';
+}
+
+// Event listener for input and change events on the form
+imageForm.addEventListener('input', changebouton);
+imageForm.addEventListener('change', changebouton);
+
+// Event handler for form change events
+function changebouton() {
+  if (tousLesChampsRemplis()) {
+    validerAjoutImageButton.classList.add('validerImage-active');
+  } else {
+    validerAjoutImageButton.classList.remove('validerImage-active');
+  }
+}
+
 
 
 //--------------------------------------------------------------------------------------------
 //Ajoute l'image à la base de donnée API 
 //Ne fonctionne pas pour le moment.
 
+  console.log('token:', token)
+
   document.getElementById('imageForm').addEventListener('submit',function(event) {
     event.preventDefault();
 
     const photo = document.getElementById('photo').files[0];
     const titre = document.getElementById('titreduproject').value;
-    const categoryId = document.getElementById('categorieduprojet').value;
-    const token = sessionStorage.getItem('token');
+    const category = parseInt(document.getElementById('categorieduprojet').value);
 
     const formData = new FormData();
+
     formData.append('image', photo);
     formData.append('title', titre);
-    formData.append('categoryId', categoryId );
+    formData.append('category', category);
+
+    const reponseForm = document.getElementById('reponseForm');
 
     fetch('http://localhost:5678/api/works', {
       method: 'POST',
       body: formData,
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`      
       },
       
     })
-    .then(APIresponse => APIresponse.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
+    .then(APIresponse => {
+      if(APIresponse.ok){
+        reponseForm.innerText = "Image envoyée ! "
+       return APIresponse.json();
+      }else{
+        throw new Error ( APIresponse.status);
+      }
+    })
+    .then(data => {
+
+      console.log(data);
+    })
+
+    .catch(err => {
+      console.log(err);
+    })
   })
+
+
+  
+
