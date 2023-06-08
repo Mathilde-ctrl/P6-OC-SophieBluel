@@ -6,6 +6,7 @@
    APIresponse.json() renvoie une promesse. Transforme la réponse http en Json
  * tousProjetsJSON : représente l'ensemble des données 
  */
+   
 
 fetch('http://localhost:5678/api/works') 
   .then(APIresponse => APIresponse.json())
@@ -21,20 +22,20 @@ fetch('http://localhost:5678/api/works')
       for (let i = 0; i < catégorisationDesProjets.length; i++){       // Boucle pour créer une figure et une img avec src et alt pour chaque élements.
         const projet = catégorisationDesProjets[i];
         const JsfigureElement = document.createElement('figure');
+        
         const JsimgElement = document.createElement('img');
         const JstextElement = document.createElement('p');
-
         JsimgElement.src = projet.imageUrl;
         JsimgElement.alt = projet.title;
         JstextElement.innerHTML = projet.title;
-
+  
         JsfigureElement.appendChild(JsimgElement);
         JsfigureElement.appendChild(JstextElement);
         HTMLgalleryElement.appendChild(JsfigureElement);
         
       };
-    }
-
+    } 
+    
     // Fonction pour filtrer les projets par catégorie
     function filtreMesProjets(identifiant) {
       if (identifiant === null) {
@@ -95,6 +96,6 @@ fetch('http://localhost:5678/api/works')
     // Afficher tous les projets au chargement de la page
     afficheProjetsGalerie(tousProjetsJSON);
   });
-
+   
 //------------------------------------------------------------------------------------------
-
+// export {JsfigureElement}

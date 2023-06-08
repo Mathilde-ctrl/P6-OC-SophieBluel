@@ -35,13 +35,11 @@ function returnModal(){
 }
 
 //Fermeture des modales
-function closeModal(event) {
+function fermetureModale(event) {
   if (modal.contains(event.target)){
     modal.style.display = 'none';
-    //location.reload();
   } else if (modal2.contains(event.target)) {
     modal2.style.display = 'none';
-    //location.reload();
   }
 }
 
@@ -56,38 +54,49 @@ retourFleche.addEventListener('click',returnModal )
 
 //Boucle pour récupérer tout les x-close icons et ajout évenement d'écoute
 for(let i = 0; i < closeIcons.length; i++){
-  closeIcons[i].addEventListener('click', closeModal);
+  closeIcons[i].addEventListener('click', fermetureModale);
 }
 
 // évenements d'écoute au moment du click en dehors des modales
+//La condition est fausse, si le click se passe en dehors des modales alors fermetureModale
+//la condition est vrai quand le click sur une modale alors return
 window.addEventListener('click', function(event) {
   if (event.target !== modal && event.target !== modal2) {
     return;
   }
-  closeModal(event);
+  fermetureModale(event);
 });
 
-//-------------------------------------------------------
-//Affiche les projets dans la modale avec les fonctionnalités supprimer 
+//-------------------------------------------------------------------------------------
+//  TOKEN
+const token = sessionStorage.getItem('token')
+
+
+
+//-------------------------------------------------------------------------------------
+//  Affiche les projets dans la modale avec les fonctionnalités supprimer 
 
 function afficheProjetsGalerie(projets) {
-  const HTMLgalleryElement = document.querySelector('#modal .gallery');
-  const categorieduprojet = document.getElementById('categorieduprojet')  //
+  const HTMLgalerieElement = document.querySelector('#modal .gallery');
+  const categorieduprojet = document.getElementById('categorieduprojet')  
   const categorieUnique = new Set();
+
+  console.log(projets)
 
   for (let i = 0; i < projets.length; i++) {
     const projet = projets[i];
+    const idprojet = projet.id;
+
     const JsfigureElement = document.createElement('figure');
     const JsimgElement = document.createElement('img');
     const JsTextElement = document.createElement('a');
     const JsIconsConteneur = document.createElement('div');
     const JsIconPoubelle = document.createElement('i');
     const JsIconDirection = document.createElement('i');
-    const idprojet = projet.id;
-    const JsOptionMenu = document.createElement('option');  //
+    const JsOptionMenu = document.createElement('option');  
 
-    JsOptionMenu.innerText = projet.category.name;  //
-    JsOptionMenu.value = projet.category.id;  //
+    JsOptionMenu.innerText = projet.category.name;  
+    JsOptionMenu.value = projet.category.id;  
 
     JsimgElement.src = projet.imageUrl;
     JsimgElement.alt = projet.title;
@@ -100,19 +109,18 @@ function afficheProjetsGalerie(projets) {
 
     JsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
     JsIconPoubelle.setAttribute('data-projet', idprojet);
-
     JsIconPoubelle.addEventListener('click', () => {
       supprimerProjet(idprojet)
-        .then(() => {
-          JsfigureElement.remove();
-        })
-        .catch(error => {
-          console.error('Problème pour supprimer un projet:', error);
-        });
+      // .then ici parce que la déclaration de JsfigureElement dans ce bloc.
+      .then(() => {
+        JsfigureElement.remove();
+      })
+      
     });
 
     JsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
 
+    //Une seule catégorie présent dans le menu
     if (!categorieUnique.has(projet.category.name)){
       categorieduprojet.appendChild(JsOptionMenu);
       categorieUnique.add(projet.category.name);
@@ -123,12 +131,11 @@ function afficheProjetsGalerie(projets) {
     JsfigureElement.appendChild(JsIconsConteneur);
     JsIconsConteneur.appendChild(JsIconPoubelle);
     JsIconsConteneur.appendChild(JsIconDirection);
-    HTMLgalleryElement.appendChild(JsfigureElement);
+    HTMLgalerieElement.appendChild(JsfigureElement);
 
   }
 }
-const token = sessionStorage.getItem('token')
-
+// return assure l'enchainement de cette promesse avec .then dans l'évenement d'écoute
 function supprimerProjet(projetId) {
   return fetch(`http://localhost:5678/api/works/${projetId}`, {
     method: 'DELETE',
@@ -140,7 +147,8 @@ function supprimerProjet(projetId) {
       if (!response.ok) {
         throw new Error('Problème pour supprimer un projet');
       }
-    });
+    })
+    
 }
 
 fetch('http://localhost:5678/api/works',{
@@ -155,44 +163,50 @@ fetch('http://localhost:5678/api/works',{
   afficheProjetsGalerie(tousProjetsJSON);
 });
 
-  //--------------------------------------------------------------------------------------------
-  // Affiche image une fois sélectionné 
+//--------------------------------------------------------------------------------------------
+//  Affiche image une fois sélectionné dans Modal2
 
   const photoInput = document.getElementById('photo');
-  
+  const imageTelecharge = document.getElementById('selectionImage');
 
   photoInput.addEventListener('change', function(event){
+    //files[0] = propriété qui représente le premier fichier sélectionné 
     const file = event.target.files[0];
+    //FileReader() = interface de lecture des fichiers
     const reader = new FileReader();
 
-    const imageTelecharge = document.getElementById('selectionImage');
+    
     const labelPhoto = document.getElementById('labelPhoto')
 
     labelPhoto.style.display = "none";
 
+    //met à jour src de Id='selectionImage' 
+    //onload = propriété assigné à une fonction
     reader.onload = function(e) {
       imageTelecharge.src = e.target.result;
     };
   
     reader.readAsDataURL(file);
-
   });
 //--------------------------------------------------------------------------------------------
-// 
+// Création d'une nouvelle catégorie dans modal2
+//Ajout d'img avec nouvelle catégorie pas encore possible !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 const categorieduprojet = document.getElementById('categorieduprojet');
+const nouvelleCategorie = document.getElementById('nouvelleCategorie');
 
 categorieduprojet.addEventListener('change', function() {
-  const selectedOption = this.options[this.selectedIndex];
-  const newCategoryOption = document.getElementById('nouvelleCategorie');
+  const selecteOption = this.options[this.selectedIndex];
+  if (selecteOption === nouvelleCategorie) {
+    const nouveauNomCategorie = prompt('Enter the new category name:');
+    
+    const nouvelleOption = document.createElement('option');    
+    nouvelleOption.innerText = nouveauNomCategorie;
+    nouvelleOption.value = (categorieduprojet.length - 1) // assigne une valeur chiffré 
 
-  if (selectedOption === newCategoryOption) {
-    const newCategoryName = prompt('Enter the new category name:');
-
-    const newOption = document.createElement('option');
-    newOption.value = newCategoryName;
-    newOption.text = newCategoryName;
-    this.appendChild(newOption);
-    newOption.selected = true;
+    categorieduprojet.appendChild(nouvelleOption);
+    nouvelleOption.selected = true;
+    console.log(categorieduprojet)
   }
 });
 
@@ -200,21 +214,16 @@ categorieduprojet.addEventListener('change', function() {
 //--------------------------------------------------------------------------------
 // Vérifie que les 3 inputs sont complétés et ajoute une classe pour bouton 
 
+
 const imageForm = document.getElementById('imageForm');
 const titreduprojectInput = document.getElementById('titreduproject');
 const categorieduprojetInput = document.getElementById('categorieduprojet');
 const validerAjoutImageButton = document.getElementById('validerAjoutImage');
 
-// Function to check if all required fields are filled
-function tousLesChampsRemplis() {
-  return photoInput.files.length > 0 && titreduprojectInput.value.trim() !== '' && categorieduprojetInput.value !== '';
-}
-
-// Event listener for input and change events on the form
-imageForm.addEventListener('input', changebouton);
+// Event listener 
 imageForm.addEventListener('change', changebouton);
 
-// Event handler for form change events
+// fonction pour changer la couleur du bouton valider quand les 3 inputs sont remplis
 function changebouton() {
   if (tousLesChampsRemplis()) {
     validerAjoutImageButton.classList.add('validerImage-active');
@@ -222,12 +231,14 @@ function changebouton() {
     validerAjoutImageButton.classList.remove('validerImage-active');
   }
 }
-
+// Fonction pour vérifier que les 3 champs sont remplis 
+function tousLesChampsRemplis() {
+  return photoInput.files.length == 1 && titreduprojectInput.value.trim() !== '' && categorieduprojetInput.value !== '';
+}
 
 
 //--------------------------------------------------------------------------------------------
 //Ajoute l'image à la base de donnée API 
-//Ne fonctionne pas pour le moment.
 
   console.log('token:', token)
 
@@ -259,19 +270,69 @@ function changebouton() {
         reponseForm.innerText = "Image envoyée ! "
        return APIresponse.json();
       }else{
-        throw new Error ( APIresponse.status);
+        throw new Error ( reponseForm.innerText = "Erreur : " + APIresponse.status);
       }
     })
     .then(data => {
-
       console.log(data);
-    })
+      //Ajoute Dynamiquement le nouveau projet dans la galerie de la modale
+      const modaleHTMLgalerieElement = document.querySelector('#modal .gallery');
+      const modaleJsfigureElement = document.createElement('figure');
+      const modaleJsimgElement = document.createElement('img');
+      const modaleJsTextElement = document.createElement('a');
+      const modaleJsIconsConteneur = document.createElement('div');
+      const modaleJsIconPoubelle = document.createElement('i');
+      const modaleJsIconDirection = document.createElement('i');
 
-    .catch(err => {
-      console.log(err);
+      modaleJsimgElement.src = data.imageUrl;
+      modaleJsimgElement.alt = data.title;
+
+      modaleJsTextElement.innerText = 'éditer';
+      modaleJsTextElement.href = '#';
+      modaleJsTextElement.className = 'modalTextEdit';
+
+      modaleJsIconsConteneur.className = 'conteneurIcons';
+
+      modaleJsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
+      modaleJsIconPoubelle.setAttribute('data-projet', data.id);
+      modaleJsIconPoubelle.addEventListener('click', () => {
+        supprimerProjet(data.id)
+          .then(() => {
+            modaleJsfigureElement.remove();
+          })
+      });
+
+      modaleJsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
+
+    modaleJsfigureElement.appendChild(modaleJsimgElement);
+    modaleJsfigureElement.appendChild(modaleJsTextElement);
+    modaleJsfigureElement.appendChild(modaleJsIconsConteneur);
+    modaleJsIconsConteneur.appendChild(modaleJsIconPoubelle);
+    modaleJsIconsConteneur.appendChild(modaleJsIconDirection);
+    modaleHTMLgalerieElement.appendChild(modaleJsfigureElement);
+
+
+    //Ajoute dynamiquement le projet dans la galerie de indexedit.html
+    const indexHTMLgalleryElement = document.querySelector('.gallery');      //Assigne une classe à la variable
+    const indexJsfigureElement = document.createElement('figure');
+        
+    const indexJsimgElement = document.createElement('img');
+    const indexJstextElement = document.createElement('p');
+
+    indexJsimgElement.src = data.imageUrl;
+    indexJsimgElement.alt = titre;
+
+    indexJstextElement.innerHTML = titre;
+  
+    indexJsfigureElement.appendChild(indexJsimgElement);
+    indexJsfigureElement.appendChild(indexJstextElement);
+    indexHTMLgalleryElement.appendChild(indexJsfigureElement);
+
+
     })
   })
 
+//---------------------------------------------------------------------------------------------------------
 
-  
-
+//IMPORT
+//import { JsfigureElement } from "./fetch.js"; // ????????????????????????????
