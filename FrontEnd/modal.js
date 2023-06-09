@@ -113,9 +113,13 @@ function afficheProjetsGalerie(projets) {
       supprimerProjet(idprojet)
       // .then ici parce que la déclaration de JsfigureElement dans ce bloc.
       .then(() => {
+        //Supprime le projet dans la modale dynamiquement
         JsfigureElement.remove();
+
+        //supprime le projet dans indexedit.html dynamiquement
+        const indexJsfigureElement = document.querySelector('#portfolio .gallery figure');
+        indexJsfigureElement.remove();
       })
-      
     });
 
     JsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
@@ -311,9 +315,8 @@ function tousLesChampsRemplis() {
     modaleJsIconsConteneur.appendChild(modaleJsIconDirection);
     modaleHTMLgalerieElement.appendChild(modaleJsfigureElement);
 
-
     //Ajoute dynamiquement le projet dans la galerie de indexedit.html
-    const indexHTMLgalleryElement = document.querySelector('.gallery');      //Assigne une classe à la variable
+    const indexHTMLgalleryElement = document.querySelector('.gallery');
     const indexJsfigureElement = document.createElement('figure');
         
     const indexJsimgElement = document.createElement('img');
@@ -327,12 +330,7 @@ function tousLesChampsRemplis() {
     indexJsfigureElement.appendChild(indexJsimgElement);
     indexJsfigureElement.appendChild(indexJstextElement);
     indexHTMLgalleryElement.appendChild(indexJsfigureElement);
-
-
     })
   })
 
 //---------------------------------------------------------------------------------------------------------
-
-//IMPORT
-//import { JsfigureElement } from "./fetch.js"; // ????????????????????????????
