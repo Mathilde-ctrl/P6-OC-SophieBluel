@@ -109,6 +109,7 @@ function afficheProjetsGalerie(projets) {
 
     JsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
     JsIconPoubelle.setAttribute('data-projet', idprojet);
+
     JsIconPoubelle.addEventListener('click', () => {
       supprimerProjet(idprojet)
       // .then ici parce que la déclaration de JsfigureElement dans ce bloc.
@@ -121,7 +122,7 @@ function afficheProjetsGalerie(projets) {
         indexJsfigureElement.remove();
       })
     });
-
+    
     JsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
 
     //Une seule catégorie présent dans le menu
@@ -138,7 +139,53 @@ function afficheProjetsGalerie(projets) {
     HTMLgalerieElement.appendChild(JsfigureElement);
 
   }
+
+  //Supprimer Tous les projets 
+  const supprimerTousLesProjetsGalerie = document.querySelector('.supprimeGallery')
+  supprimerTousLesProjetsGalerie.addEventListener('click', () => {
+
+    const dynamiqueModaleSelectionneTousLesProjetsGalerie = document.querySelectorAll('#modal .gallery figure')
+    const dynamiqueIndexSelectionneTousLesProjetsGalerie = document.querySelectorAll('#portfolio .gallery figure')
+      
+    //Supprime dynamiquement dans la Modale sans actualiser
+    dynamiqueModaleSelectionneTousLesProjetsGalerie.forEach((figure) => {
+      figure.remove();
+    });
+
+    //supprime dynamiquement dans indexedit.html sans actualiser 
+    dynamiqueIndexSelectionneTousLesProjetsGalerie.forEach((figure) => {
+      figure.remove();
+    });
+
+    //Supprime les projets dans API 
+    for (let i = 0; i < projets.length; i++) {
+      const projet = projets[i];
+      const projetId = projet.id
+        
+      supprimerProjet(projetId)
+      .then(() => {
+        console.log(`Le project ID : ${projetId} a bien été supprimé`);
+
+        const modaleSelectionneTousLesProjetsGalerie = document.querySelectorAll('#modal .gallery figure[data-projet="' + projetId + '"]');
+        const indexSelectionneTousLesProjetsGalerie = document.querySelectorAll('#portfolio .gallery figure[data-projet="' + projetId + '"]');
+        
+        modaleSelectionneTousLesProjetsGalerie.forEach((figure) => {
+          figure.remove();
+        });
+
+        indexSelectionneTousLesProjetsGalerie.forEach((figure) => {
+          figure.remove();
+        });
+      })
+      .catch((error) => {
+        console.error(`Erreur pour supprimer le projet ID : ${projetId}:`, error);
+      });
+    }
+  })
 }
+
+
+
 // return assure l'enchainement de cette promesse avec .then dans l'évenement d'écoute
 function supprimerProjet(projetId) {
   return fetch(`http://localhost:5678/api/works/${projetId}`, {
@@ -334,3 +381,52 @@ function tousLesChampsRemplis() {
   })
 
 //---------------------------------------------------------------------------------------------------------
+// Supprime tous les projets 
+
+
+
+function supprimerTousLesProjets(projetId) {
+  const modaleSelectionneTousLesProjetsGalerie = document.querySelectorAll('#modal .gallery figure')
+  const indexSelectionneTousLesProjetsGalerie = document.querySelectorAll('#portfolio .gallery figure')
+
+  console.log(projetId)
+  for (let i = 0; i < projetId.length; i++){
+    const projet = projetId[i];
+    const idprojet = projet.id;
+
+      //Supprime les projets dans la modale dynamiquement
+      modaleSelectionneTousLesProjetsGalerie.forEach(function(figure){
+        figure.setAttribute('data-projet', idprojet)
+        figure.remove();
+      })
+
+      //Supprime les projets dans indexedit.html dynamiquement
+      indexSelectionneTousLesProjetsGalerie.forEach(function(figure){
+        figure.setAttribute('data-projet', idprojet)
+        figure.remove();
+      })
+
+      const supprimerTousLesProjetsGalerie = document.querySelector('.supprimeGallery')
+
+supprimerTousLesProjetsGalerie.addEventListener('click', () => {
+  fetch(`http://localhost:5678/api/works/${projetId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(APIresponse => APIresponse.json())
+  .then(() => {
+    
+  })
+  .catch(error => {
+    console.error('Error:', error)
+  })
+})
+  }
+
+  
+};
+
+
+  
