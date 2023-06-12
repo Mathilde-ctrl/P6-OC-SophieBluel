@@ -17,21 +17,22 @@ const retourFleche = document.querySelector('.retour-fleche');
 const closeIcons = document.getElementsByClassName('x-close');
 
 //Ouvre modal
-function openModal() {
+function ouvreModal() {
   modal.style.display = 'flex';
   modal2.style.display = "none";
 }
 
 //Passage entre modal et modal2
-function betweenModal(){
+function entreModal(){
   modal.style.display = 'none';
   modal2.style.display = "flex";
 }
 
 //Retour de modal2 à modal 
-function returnModal(){
+function retourModal(){
   modal.style.display = 'flex';
   modal2.style.display = "none";
+
 }
 
 //Fermeture des modales
@@ -43,28 +44,51 @@ function fermetureModale(event) {
   }
 }
 
+//Nettoyer le fichier input quand retour sur modale ou fermeture.
+function nettoyerFichierInput() {
+  const photoInput = document.getElementById('photo');
+  const imageTelecharge = document.getElementById('selectionImage');
+  const labelPhoto = document.getElementById('labelPhoto');
+
+  photoInput.value = ''; // Nettoye la valeur input
+  imageTelecharge.src = ''; // Nettoye la source de l'image
+  imageTelecharge.style.display = 'none'; // Cache image après le retour
+  labelPhoto.style.display = 'flex'; // Montre le label
+
+}
+
 // évenements d'écoute du lien 
-lienModal.addEventListener('click', openModal);
+lienModal.addEventListener('click', ouvreModal);
 
 //évenement d'écoute du bouton dans modal
-btnAjoutImage.addEventListener('click',betweenModal)
+btnAjoutImage.addEventListener('click',entreModal)
 
 //évenement d'écoute du de l'icon fleche
-retourFleche.addEventListener('click',returnModal )
+retourFleche.addEventListener('click', () => {
+  retourModal();
+  const imageForm = document.getElementById('imageForm');
+  imageForm.reset();
+  nettoyerFichierInput();
+});
+
 
 //Boucle pour récupérer tout les x-close icons et ajout évenement d'écoute
 for(let i = 0; i < closeIcons.length; i++){
-  closeIcons[i].addEventListener('click', fermetureModale);
+  closeIcons[i].addEventListener('click', function(event){
+    fermetureModale(event);
+    nettoyerFichierInput();
+  })
 }
 
 // évenements d'écoute au moment du click en dehors des modales
-//La condition est fausse, si le click se passe en dehors des modales alors fermetureModale
-//la condition est vrai quand le click sur une modale alors return
+//Si le click en dehors des modales alors condition Vrai et execute les 2 fonctions
+//Si click sur modale alors retour
 window.addEventListener('click', function(event) {
   if (event.target !== modal && event.target !== modal2) {
     return;
   }
   fermetureModale(event);
+  nettoyerFichierInput()
 });
 
 //-------------------------------------------------------------------------------------
@@ -157,7 +181,7 @@ function afficheProjetsGalerie(projets) {
       figure.remove();
     });
 
-    //Supprime les projets dans API 
+    //Supprime tous les projets dans API 
     for (let i = 0; i < projets.length; i++) {
       const projet = projets[i];
       const projetId = projet.id
@@ -185,7 +209,7 @@ function afficheProjetsGalerie(projets) {
 }
 
 
-
+// fonction pour supprimer individuellement et en globalité tous les projets
 // return assure l'enchainement de cette promesse avec .then dans l'évenement d'écoute
 function supprimerProjet(projetId) {
   return fetch(`http://localhost:5678/api/works/${projetId}`, {
@@ -219,26 +243,55 @@ fetch('http://localhost:5678/api/works',{
 
   const photoInput = document.getElementById('photo');
   const imageTelecharge = document.getElementById('selectionImage');
-
+  //
   photoInput.addEventListener('change', function(event){
     //files[0] = propriété qui représente le premier fichier sélectionné 
-    const file = event.target.files[0];
-    //FileReader() = interface de lecture des fichiers
-    const reader = new FileReader();
+    const fichier = event.target.files[0];
+    const maxTailleFichier = 4 * 1048576; // 1Mo = 1048576 octets
 
+    //la propriété .size renvoie la taille du fichier en octet.
+    if(fichier.size <= maxTailleFichier){
+      const lecture = new FileReader();
+      const labelPhoto = document.getElementById('labelPhoto')
+
+      labelPhoto.style.display = "none";
+
+      //met à jour src de Id='selectionImage' 
+      //onload = propriété assigné à une fonction
+      lecture.onload = function(e) {
+        imageTelecharge.src = e.target.result;
+        imageTelecharge.style.display = 'block'; // Image visible après retour et selection d'une image.
+      };
+  
+      lecture.readAsDataURL(fichier);
+    }else{
+      const reponseForm = document.getElementById('reponseForm');
+      reponseForm.innerText = "La taille de l'image est supérieure à 4 Mo "
+    }
+    //FileReader() = interface de lecture des fichiers
     
+  });
+/*
+  photoInput.addEventListener('change', function(event){
+    //files[0] = propriété qui représente le premier fichier sélectionné 
+    const fichier = event.target.files[0];
+    
+    //FileReader() = interface de lecture des fichiers
+    const lecture = new FileReader();
     const labelPhoto = document.getElementById('labelPhoto')
 
     labelPhoto.style.display = "none";
 
     //met à jour src de Id='selectionImage' 
     //onload = propriété assigné à une fonction
-    reader.onload = function(e) {
+    lecture.onload = function(e) {
       imageTelecharge.src = e.target.result;
+      imageTelecharge.style.display = 'block'; // Image visible après retour et selection d'une image.
     };
   
-    reader.readAsDataURL(file);
+    lecture.readAsDataURL(fichier);
   });
+*/
 //--------------------------------------------------------------------------------------------
 // Création d'une nouvelle catégorie dans modal2
 //Ajout d'img avec nouvelle catégorie pas encore possible !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
