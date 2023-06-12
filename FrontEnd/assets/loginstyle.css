@@ -1,13 +1,10 @@
-body{
-  height: 100vh;
-}
+
 
 #login {
 	width: 30%;
   margin: auto;
-  padding-top: 140px;
+  padding-top: 130px;
   text-align: center;
-	
 }
 
 #login h2{
@@ -44,6 +41,7 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 50px ;
   height: 35px;
+	cursor: pointer;
 }
 
 #login #forgot{
@@ -54,7 +52,7 @@ input[type="submit"]{
   text-decoration: underline;
   padding-bottom: 50px;
   font-family: 'Work Sans';
-  margin-bottom: 80px;
+  margin-bottom: 60px;
 }
 
 .ongletlogin{

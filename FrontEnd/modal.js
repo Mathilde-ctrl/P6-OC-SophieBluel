@@ -35,11 +35,21 @@ function retourModal(){
 
 }
 
-//Fermeture des modales
+/**
+ * fonction fermetureModale 
+ * 
+ * fonction qui cache les deux fenêtres modales
+ * 
+ * @param {Event} event événement DOM généré par le navigateur
+ */
 function fermetureModale(event) {
+  //Si l'événement a été capturé par la modale modal 
   if (modal.contains(event.target)){
+    //On la cache
     modal.style.display = 'none';
   } else if (modal2.contains(event.target)) {
+    //si l'événement a été capturé par la modale modal2
+    //On la cache 
     modal2.style.display = 'none';
   }
 }
@@ -49,11 +59,13 @@ function nettoyerFichierInput() {
   const photoInput = document.getElementById('photo');
   const imageTelecharge = document.getElementById('selectionImage');
   const labelPhoto = document.getElementById('labelPhoto');
+  const reponseForm = document.getElementById('reponseForm');
 
   photoInput.value = ''; // Nettoye la valeur input
   imageTelecharge.src = ''; // Nettoye la source de l'image
   imageTelecharge.style.display = 'none'; // Cache image après le retour
   labelPhoto.style.display = 'flex'; // Montre le label
+  reponseForm.innerText = '';
 
 }
 
@@ -161,13 +173,12 @@ function afficheProjetsGalerie(projets) {
     JsIconsConteneur.appendChild(JsIconPoubelle);
     JsIconsConteneur.appendChild(JsIconDirection);
     HTMLgalerieElement.appendChild(JsfigureElement);
-
   }
 
   //Supprimer Tous les projets 
   const supprimerTousLesProjetsGalerie = document.querySelector('.supprimeGallery')
-  supprimerTousLesProjetsGalerie.addEventListener('click', () => {
 
+  supprimerTousLesProjetsGalerie.addEventListener('click', () => {
     const dynamiqueModaleSelectionneTousLesProjetsGalerie = document.querySelectorAll('#modal .gallery figure')
     const dynamiqueIndexSelectionneTousLesProjetsGalerie = document.querySelectorAll('#portfolio .gallery figure')
       
@@ -251,6 +262,7 @@ fetch('http://localhost:5678/api/works',{
 
     //la propriété .size renvoie la taille du fichier en octet.
     if(fichier.size <= maxTailleFichier){
+      //FileReader() = interface de lecture des fichiers
       const lecture = new FileReader();
       const labelPhoto = document.getElementById('labelPhoto')
 
@@ -268,61 +280,16 @@ fetch('http://localhost:5678/api/works',{
       const reponseForm = document.getElementById('reponseForm');
       reponseForm.innerText = "La taille de l'image est supérieure à 4 Mo "
     }
-    //FileReader() = interface de lecture des fichiers
-    
   });
-/*
-  photoInput.addEventListener('change', function(event){
-    //files[0] = propriété qui représente le premier fichier sélectionné 
-    const fichier = event.target.files[0];
-    
-    //FileReader() = interface de lecture des fichiers
-    const lecture = new FileReader();
-    const labelPhoto = document.getElementById('labelPhoto')
-
-    labelPhoto.style.display = "none";
-
-    //met à jour src de Id='selectionImage' 
-    //onload = propriété assigné à une fonction
-    lecture.onload = function(e) {
-      imageTelecharge.src = e.target.result;
-      imageTelecharge.style.display = 'block'; // Image visible après retour et selection d'une image.
-    };
-  
-    lecture.readAsDataURL(fichier);
-  });
-*/
-//--------------------------------------------------------------------------------------------
-// Création d'une nouvelle catégorie dans modal2
-//Ajout d'img avec nouvelle catégorie pas encore possible !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-const categorieduprojet = document.getElementById('categorieduprojet');
-const nouvelleCategorie = document.getElementById('nouvelleCategorie');
-
-categorieduprojet.addEventListener('change', function() {
-  const selecteOption = this.options[this.selectedIndex];
-  if (selecteOption === nouvelleCategorie) {
-    const nouveauNomCategorie = prompt('Enter the new category name:');
-    
-    const nouvelleOption = document.createElement('option');    
-    nouvelleOption.innerText = nouveauNomCategorie;
-    nouvelleOption.value = (categorieduprojet.length - 1) // assigne une valeur chiffré 
-
-    categorieduprojet.appendChild(nouvelleOption);
-    nouvelleOption.selected = true;
-    console.log(categorieduprojet)
-  }
-});
-
 
 //--------------------------------------------------------------------------------
 // Vérifie que les 3 inputs sont complétés et ajoute une classe pour bouton 
-
 
 const imageForm = document.getElementById('imageForm');
 const titreduprojectInput = document.getElementById('titreduproject');
 const categorieduprojetInput = document.getElementById('categorieduprojet');
 const validerAjoutImageButton = document.getElementById('validerAjoutImage');
+
 
 // Event listener 
 imageForm.addEventListener('change', changebouton);
@@ -403,18 +370,19 @@ function tousLesChampsRemplis() {
         supprimerProjet(data.id)
           .then(() => {
             modaleJsfigureElement.remove();
+            indexJsfigureElement.remove();//
           })
       });
 
       modaleJsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
-
+    
     modaleJsfigureElement.appendChild(modaleJsimgElement);
     modaleJsfigureElement.appendChild(modaleJsTextElement);
     modaleJsfigureElement.appendChild(modaleJsIconsConteneur);
     modaleJsIconsConteneur.appendChild(modaleJsIconPoubelle);
     modaleJsIconsConteneur.appendChild(modaleJsIconDirection);
     modaleHTMLgalerieElement.appendChild(modaleJsfigureElement);
-
+    
     //Ajoute dynamiquement le projet dans la galerie de indexedit.html
     const indexHTMLgalleryElement = document.querySelector('.gallery');
     const indexJsfigureElement = document.createElement('figure');
@@ -430,56 +398,13 @@ function tousLesChampsRemplis() {
     indexJsfigureElement.appendChild(indexJsimgElement);
     indexJsfigureElement.appendChild(indexJstextElement);
     indexHTMLgalleryElement.appendChild(indexJsfigureElement);
+
+    setTimeout(() => {
+      document.getElementById('modal2').style.display = 'none';
+      }, 1500);
+    
     })
   })
 
 //---------------------------------------------------------------------------------------------------------
-// Supprime tous les projets 
-
-
-
-function supprimerTousLesProjets(projetId) {
-  const modaleSelectionneTousLesProjetsGalerie = document.querySelectorAll('#modal .gallery figure')
-  const indexSelectionneTousLesProjetsGalerie = document.querySelectorAll('#portfolio .gallery figure')
-
-  console.log(projetId)
-  for (let i = 0; i < projetId.length; i++){
-    const projet = projetId[i];
-    const idprojet = projet.id;
-
-      //Supprime les projets dans la modale dynamiquement
-      modaleSelectionneTousLesProjetsGalerie.forEach(function(figure){
-        figure.setAttribute('data-projet', idprojet)
-        figure.remove();
-      })
-
-      //Supprime les projets dans indexedit.html dynamiquement
-      indexSelectionneTousLesProjetsGalerie.forEach(function(figure){
-        figure.setAttribute('data-projet', idprojet)
-        figure.remove();
-      })
-
-      const supprimerTousLesProjetsGalerie = document.querySelector('.supprimeGallery')
-
-supprimerTousLesProjetsGalerie.addEventListener('click', () => {
-  fetch(`http://localhost:5678/api/works/${projetId}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    }
-  })
-  .then(APIresponse => APIresponse.json())
-  .then(() => {
-    
-  })
-  .catch(error => {
-    console.error('Error:', error)
-  })
-})
-  }
-
-  
-};
-
-
-  
+// 

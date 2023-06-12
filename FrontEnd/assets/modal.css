@@ -22,13 +22,15 @@
   box-sizing: border-box;
 }
 
-.fenetremodal .x-close{
-  display: flex;
-  justify-content: flex-end;
-  /* Check the cursor pointer is on all the lign*/
+#modal .fenetremodal .x-close{
+  position: relative;
+  left: 550px;
+  cursor: pointer;
 }
 
-.x-close:before{
+#modal2 .fenetremodal .x-close{
+  position: relative;
+  left: 530px;
   cursor: pointer;
 }
 
@@ -54,6 +56,7 @@
 
 .bodymodal figure img{
   width: 80px; 
+  height: 108px;
 }
 
 .bodymodal .conteneurIcons{
@@ -327,7 +330,6 @@
   bottom: 20px;
   display: flex;
   justify-content: center;
-  
-
-
+  font-weight: 500;
+  font-size: 20px;
 }

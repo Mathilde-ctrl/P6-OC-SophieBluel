@@ -67,8 +67,8 @@ fetch('http://localhost:5678/api/works')
       }
     });
 
+    //Création des autres boutons sans doublons
     const uniqueFiltre = new Set();
-
     for (let i = 0; i < tousProjetsJSON.length; i++) {    // Boucle qui itère chaque élement de tousProjetsJSON 
       const tousProject = tousProjetsJSON[i];
 
@@ -98,4 +98,3 @@ fetch('http://localhost:5678/api/works')
   });
    
 //------------------------------------------------------------------------------------------
-// export {JsfigureElement}
