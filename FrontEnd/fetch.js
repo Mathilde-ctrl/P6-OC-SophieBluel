@@ -21,10 +21,12 @@ fetch('http://localhost:5678/api/works')
   
       for (let i = 0; i < catégorisationDesProjets.length; i++){       // Boucle pour créer une figure et une img avec src et alt pour chaque élements.
         const projet = catégorisationDesProjets[i];
+        const projectId = projet.id //
         const JsfigureElement = document.createElement('figure');
-        
         const JsimgElement = document.createElement('img');
         const JstextElement = document.createElement('p');
+
+        JsfigureElement.setAttribute('data-projet', projectId)  //
         JsimgElement.src = projet.imageUrl;
         JsimgElement.alt = projet.title;
         JstextElement.innerHTML = projet.title;

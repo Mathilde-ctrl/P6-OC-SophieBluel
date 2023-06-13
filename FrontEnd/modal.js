@@ -66,7 +66,6 @@ function nettoyerFichierInput() {
   imageTelecharge.style.display = 'none'; // Cache image après le retour
   labelPhoto.style.display = 'flex'; // Montre le label
   reponseForm.innerText = '';
-
 }
 
 // évenements d'écoute du lien 
@@ -121,64 +120,73 @@ function afficheProjetsGalerie(projets) {
 
   for (let i = 0; i < projets.length; i++) {
     const projet = projets[i];
-    const idprojet = projet.id;
+    const projetId = projet.id;
 
-    const JsfigureElement = document.createElement('figure');
-    const JsimgElement = document.createElement('img');
-    const JsTextElement = document.createElement('a');
-    const JsIconsConteneur = document.createElement('div');
-    const JsIconPoubelle = document.createElement('i');
-    const JsIconDirection = document.createElement('i');
-    const JsOptionMenu = document.createElement('option');  
+    const modaleJsfigureElement = document.createElement('figure');
+    const modaleJsimgElement = document.createElement('img');
+    const modaleJsTextElement = document.createElement('a');
+    const modaleJsIconsConteneur = document.createElement('div');
+    const modaleJsIconPoubelle = document.createElement('i');
+    const modaleJsIconDirection = document.createElement('i');
+    const modaleJsOptionMenu = document.createElement('option');  
+    
 
-    JsOptionMenu.innerText = projet.category.name;  
-    JsOptionMenu.value = projet.category.id;  
+    modaleJsOptionMenu.innerText = projet.category.name;  
+    modaleJsOptionMenu.value = projet.category.id;  
 
-    JsimgElement.src = projet.imageUrl;
-    JsimgElement.alt = projet.title;
+    modaleJsimgElement.src = projet.imageUrl;
+    modaleJsimgElement.alt = projet.title;
 
-    JsTextElement.innerText = 'éditer';
-    JsTextElement.href = '#';
-    JsTextElement.className = 'modalTextEdit';
+    modaleJsTextElement.innerText = 'éditer';
+    modaleJsTextElement.href = '#';
+    modaleJsTextElement.className = 'modalTextEdit';
 
-    JsIconsConteneur.className = 'conteneurIcons';
+    modaleJsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
 
-    JsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
-    JsIconPoubelle.setAttribute('data-projet', idprojet);
+    modaleJsIconsConteneur.className = 'conteneurIcons';
 
-    JsIconPoubelle.addEventListener('click', () => {
-      supprimerProjet(idprojet)
+    
+
+    modaleJsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
+    modaleJsIconPoubelle.setAttribute('data-projet', projetId);
+
+    
+    modaleJsIconPoubelle.addEventListener('click', () => {
+      supprimerProjet(projetId)
       // .then ici parce que la déclaration de JsfigureElement dans ce bloc.
       .then(() => {
         //Supprime le projet dans la modale dynamiquement
-        JsfigureElement.remove();
-
+        modaleJsfigureElement.remove();
+        
         //supprime le projet dans indexedit.html dynamiquement
-        const indexJsfigureElement = document.querySelector('#portfolio .gallery figure');
+        const indexJsfigureElement = document.querySelector(`#portfolio .gallery figure[data-projet="${projetId}"]`)  //
         indexJsfigureElement.remove();
+        
+        
+
       })
     });
     
-    JsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
 
     //Une seule catégorie présent dans le menu
     if (!categorieUnique.has(projet.category.name)){
-      categorieduprojet.appendChild(JsOptionMenu);
+      categorieduprojet.appendChild(modaleJsOptionMenu);
       categorieUnique.add(projet.category.name);
     }
 
-    JsfigureElement.appendChild(JsimgElement);
-    JsfigureElement.appendChild(JsTextElement);
-    JsfigureElement.appendChild(JsIconsConteneur);
-    JsIconsConteneur.appendChild(JsIconPoubelle);
-    JsIconsConteneur.appendChild(JsIconDirection);
-    HTMLgalerieElement.appendChild(JsfigureElement);
+    modaleJsfigureElement.appendChild(modaleJsimgElement);
+    modaleJsfigureElement.appendChild(modaleJsTextElement);
+    modaleJsfigureElement.appendChild(modaleJsIconsConteneur);
+    modaleJsIconsConteneur.appendChild(modaleJsIconPoubelle);
+    modaleJsIconsConteneur.appendChild(modaleJsIconDirection);
+    HTMLgalerieElement.appendChild(modaleJsfigureElement);    
   }
 
   //Supprimer Tous les projets 
   const supprimerTousLesProjetsGalerie = document.querySelector('.supprimeGallery')
 
   supprimerTousLesProjetsGalerie.addEventListener('click', () => {
+    if(window.confirm("Êtes-vous sûr de vouloir supprimer tous les projets de la galerie") == true ) { 
     const dynamiqueModaleSelectionneTousLesProjetsGalerie = document.querySelectorAll('#modal .gallery figure')
     const dynamiqueIndexSelectionneTousLesProjetsGalerie = document.querySelectorAll('#portfolio .gallery figure')
       
@@ -216,7 +224,9 @@ function afficheProjetsGalerie(projets) {
         console.error(`Erreur pour supprimer le projet ID : ${projetId}:`, error);
       });
     }
+    }
   })
+  
 }
 
 
@@ -373,7 +383,7 @@ function tousLesChampsRemplis() {
             indexJsfigureElement.remove();//
           })
       });
-
+    
       modaleJsIconDirection.className = 'fa-solid fa-arrows-up-down-left-right ordre-des-icons';
     
     modaleJsfigureElement.appendChild(modaleJsimgElement);
@@ -401,9 +411,11 @@ function tousLesChampsRemplis() {
 
     setTimeout(() => {
       document.getElementById('modal2').style.display = 'none';
-      }, 1500);
-    
+      }, 1000);
     })
+    nettoyerFichierInput()
+    const imageForm = document.getElementById('imageForm')
+    imageForm.reset()
   })
 
 //---------------------------------------------------------------------------------------------------------
