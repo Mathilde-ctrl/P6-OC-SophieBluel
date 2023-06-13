@@ -157,13 +157,11 @@ function afficheProjetsGalerie(projets) {
       .then(() => {
         //Supprime le projet dans la modale dynamiquement
         modaleJsfigureElement.remove();
-        
+
         //supprime le projet dans indexedit.html dynamiquement
         const indexJsfigureElement = document.querySelector(`#portfolio .gallery figure[data-projet="${projetId}"]`)  //
         indexJsfigureElement.remove();
         
-        
-
       })
     });
     
@@ -286,10 +284,20 @@ fetch('http://localhost:5678/api/works',{
       };
   
       lecture.readAsDataURL(fichier);
-    }else{
-      const reponseForm = document.getElementById('reponseForm');
-      reponseForm.innerText = "La taille de l'image est supérieure à 4 Mo "
-    }
+    } else {
+        const reponseForm = document.getElementById('reponseForm');
+        nettoyerFichierInput()
+        reponseForm.innerText = "La taille de l'image est supérieure à 4 Mo ! ";
+        
+        setTimeout(() => {
+          //imageForm.reset()
+          reponseForm.innerText = "Veuillez choisir une image dont la taille est inférieur à 4 Mo "
+        }, 2000)
+         
+        setTimeout(() => {
+          reponseForm.innerText = ""
+        },4000) 
+      }
   });
 
 //--------------------------------------------------------------------------------
