@@ -1,3 +1,13 @@
+/**
+ * fetch.js
+ * 
+ * Gestion de l'authentification de l'administratice
+ * 
+ * @author Mathilde Plancq
+ * @version 1.0
+ * @date 2023-06
+ */
+
 // Les projets s’affichent dans la galerie en provenant du back-end et en récupérant : .imagesURL et .title
 
 /**

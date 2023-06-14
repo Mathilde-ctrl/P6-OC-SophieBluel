@@ -3,7 +3,7 @@
 #login {
 	width: 30%;
   margin: auto;
-  padding-top: 130px;
+  padding-top: 110px;
   text-align: center;
 }
 
@@ -27,21 +27,20 @@
 	margin: 2em 0 0.5em 0;
 }
 
-#login #message{
-	margin-top: 15px;
-}
 
 input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2.5em auto ;
+	margin : 4em auto;
 	width: 180px;
+	height: 35px;
+	
 	text-align: center;
 	border-radius: 50px ;
-  height: 35px;
 	cursor: pointer;
+	
 }
 
 #login #forgot{
@@ -58,3 +57,25 @@ input[type="submit"]{
 .ongletlogin{
 	font-weight: bold ;
 }
+
+#message {
+	position: relative;
+	margin-top: 20px;
+}
+
+#texterreurmessage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	font-size: 16px;
+	font-weight: 400;
+	color: #ff0000;
+	background-color: #ffcccc;	
+	padding: 5px;
+	border: 1px solid #ff0000;
+	border-radius: 4px;
+	text-align: center;
+	
+}
+
