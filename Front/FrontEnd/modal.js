@@ -244,7 +244,7 @@ fetch('http://localhost:5678/api/works',{
 })
 // APIreponse correspond à la reponse renvoyer par la requête 
 // Convertit la réponse avec la méthode .json() pour lire les données avec JavaScript
-.then(APIresponse => APIresponse.json())
+.then(APIreponse => APIreponse.json())
 // Les données récupérées sont accessibles dans 'tousProjetsJSON'
 .then(tousProjetsJSON => {
   // la fonction 'afficheProjetsGalerie' est appelé avec les données récupérées
@@ -378,7 +378,7 @@ function afficheProjetsGalerie(projets) {
 
     // Ajout d'un icône font Awesome
     modaleJsIconPoubelle.className = 'fa-solid fa-trash-can poubelle';
-    // Enregistre un attribut personnalisé contenat la valeur de 'projetId'
+    // Enregistre un attribut personnalisé contenant la valeur de 'projetId'
     modaleJsIconPoubelle.setAttribute('data-projet', projetId);
 
     //--- Supprime UN projet dans l'API et dynamiquement ---
