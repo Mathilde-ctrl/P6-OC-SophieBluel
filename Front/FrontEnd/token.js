@@ -8,7 +8,7 @@
  * @date 2023-06
  */
 
-//Sécurise l'ouverture de la page indexedit.html
+//--- Sécurise l'ouverture de la page indexedit.html ---
 
 /**
  * Vérifie l'existance du token stocké dans sessionStorage au moment de l'authentification
@@ -18,13 +18,13 @@
  * 
  */
 function verifieToken(){
-  //Récupère le token dans sessionStorage 
+  //Récupére le token dans sessionStorage 
   const token = sessionStorage.getItem('token')
   //Si pas de token alors redirige vers login.html
   if(!token){
     window.location.href = "login.html";
   }
 }
-//Appel la fonction
+//Appelle la fonction
 verifieToken();
 

@@ -171,7 +171,7 @@ btnAjoutImage.addEventListener('click',entreModal)
  * Lors du click les fonctions retourModal et nettoyerFichierInput seront exécutées 
  */
 retourFleche.addEventListener('click', () => {
-  //Appel la fonction retourModal
+  //Appelle la fonction retourModal
   retourModal();
   /**
    * @var HTMLElement imageForm - sélectionne le formulaire dans la deuxième modale 'modal2'
@@ -179,7 +179,7 @@ retourFleche.addEventListener('click', () => {
   const imageForm = document.getElementById('imageForm');
   //Reset les valeurs type string entrées dans le formulaire
   imageForm.reset();
-  //Appel la fonction nettoyerFichierInput 
+  //Appelle la fonction nettoyerFichierInput 
   nettoyerFichierInput();
 });
 
@@ -194,9 +194,9 @@ for(let i = 0; i < closeIcons.length; i++){
   closeIcons[i].addEventListener('click', (event) => {
   // fonction fléchée anonyme appelé lors de la fermeture des modales
 
-    //appel la fonction fermetureModale
+    //appelle la fonction fermetureModale
     fermetureModale(event);
-    //appel la fonction nettoyerFichierInput
+    //appelle la fonction nettoyerFichierInput
     nettoyerFichierInput();
   })
 }
@@ -212,9 +212,9 @@ window.addEventListener('click', (event) => {
   if (event.target !== modal && event.target !== modal2) {
     return;
   }
-  //appel la fonction fermetureModale
+  //appelle la fonction fermetureModale
   fermetureModale(event);
-  //appel la fonction nettoyerFichierInput
+  //appelle la fonction nettoyerFichierInput
   nettoyerFichierInput()
 });
 
@@ -308,12 +308,12 @@ function afficheProjetsGalerie(projets) {
    */
   const categorieUnique = new Set();
 
-  //--- Visualisatino des données 'projets' dans la console de l'inspecteur ---
+  //--- Visualisation des données 'projets' dans la console de l'inspecteur ---
   console.log(projets)
 
-  //--- Boucle For qui itére sur chaque élément contenue dans projets avec l'index 'i' ---
+  //--- Boucle For qui itère sur chaque élément contenue dans projets avec l'index 'i' ---
   for (let i = 0; i < projets.length; i++) {
-    //-- Déclaration de VARIABLE LOCALE pour récupérer des infos présent dans 'projets'
+    //--- Déclaration de VARIABLE LOCALE pour récupérer des infos présent dans 'projets'---
     /**
      * @var any projet - sélectionne le projet avec index 'i' qui est en cours de traitement
      */
@@ -323,7 +323,7 @@ function afficheProjetsGalerie(projets) {
      */
     const projetId = projet.id;
 
-    //--- Déclaration de VARIABLE LOCALE pour créer des élements d'affichage pour chaque projet ---
+    //--- Déclaration de VARIABLE LOCALE pour créer des éléments d'affichage pour chaque projet ---
     /**
      * @var HTMLElement modaleJSfigureElement - créer une balise <figure> pour contenir les éléments d'un projet
      */
@@ -355,9 +355,9 @@ function afficheProjetsGalerie(projets) {
     const modaleJsOptionMenu = document.createElement('option');  
     
     //--- Modification des éléments avec des propriétés JavaScript ---
-    // Ajout du nom de la catégorie de projet en text
+    // Ajout du nom de la catégorie de projet en texte
     modaleJsOptionMenu.innerText = projet.category.name; 
-    //Ajout de l'id de la categorie en valeur 
+    //Ajout de l'id de la catégorie en valeur 
     modaleJsOptionMenu.value = projet.category.id;  
 
     // Ajout de url pour l'image 
@@ -388,11 +388,11 @@ function afficheProjetsGalerie(projets) {
      * Permet au click d'appeler la fonction supprimerProjet et d'enchainer la résolution de promesse .then
      */   
     modaleJsIconPoubelle.addEventListener('click', () => {
-      //Appele la fonction supprimerProjet ayant pour argument l'identifiant du projet avec 'projetId'
+      //Appelle la fonction supprimerProjet ayant pour argument l'identifiant du projet avec 'projetId'
       //Supprime dans l'API
       supprimerProjet(projetId)
 
-      //Continuation de l'enchainement de la résolution de promesse dans la fonction
+      //Continuation de l'enchaînement de la résolution de promesse dans la fonction
       .then(() => {
         //Supprime le projet dynamiquement dans la modale en enlevant le <figure>
         modaleJsfigureElement.remove();
@@ -597,14 +597,14 @@ photoInput.addEventListener('change', (event)=>{
    * Si les conditions ne sont pas remplis alors 
    */
   else{
+    //Appelle de la fonction nettoyerFichierInput
+    nettoyerFichierInput()
     /**
      * @var HTMLElement reponseForm - sélectionne un <div> qui informe sur le succés ou non d'un envoye de projet 
      */
     const reponseForm = document.getElementById('reponseForm');
     // AJout le texte définnissant le refus de l'image
     reponseForm.innerText = "La taille de l'image est supérieure à 4 Mo ! ";
-    //Appele de la fonction nettoyerFichierInput
-    nettoyerFichierInput()
     
     /**
      * Change le message dans 'reponseForm' après 2 secondes
@@ -688,10 +688,10 @@ function tousLesChampsRemplis() {
 
 
 //--------------------------------------------------------------------------------------------
-//  Ajoute d'un projet avec requête Fetch 'POST' à la base de donnée API et ajout dynamiquement au DOM 
+//  Ajout d'un projet avec requête Fetch 'POST' à la base de donnée API et ajout dynamiquement au DOM 
   
   /**
-   * AJout d'un écouteur d'évenement sur le formulaire dans la deuxième modale 'modal2'
+   * AJout d'un écouteur d'événement sur le formulaire dans la deuxième modale 'modal2'
    * 
    * Permet au moment du submit d'ajouter le projet 
    */
@@ -709,7 +709,7 @@ function tousLesChampsRemplis() {
      */
     const titre = document.getElementById('titreduproject').value;
     /**
-     * @var number category - Extrait la valeur d'une catégorie dans le menu déroulant et la transform en numbre entier
+     * @var number category - Extrait la valeur d'une catégorie dans le menu déroulant et la transforme en nombre entier
      */
     const category = parseInt(document.getElementById('categorieduprojet').value);
 
@@ -745,25 +745,25 @@ function tousLesChampsRemplis() {
       },
     })
     /**
-     * Enchainement de la première promesse qui renvoye la réponse APIreponse
+     * Enchaînement de la première promesse qui renvoie la réponse APIreponse
      */
     .then(APIreponse => {
       // Condition de traitement de la requête avec propriété .ok
       //Si APIreponse est true alors la requête a été traité avec succès
       if(APIreponse.ok){
-        // Envoye un message de validation de l'envoye du projet
+        // Envoye un message de validation a l'envoye du projet
         reponseForm.innerText = "Image envoyée ! "
         //APireponse.json() est une méthode permettant de lire le contenue de la reponse
         //Convertit JSON pour être utilisé par JavaScript
         return APIreponse.json();
-        //Si la reponse est false un message d'erreur est affiché 
+        //Si la réponse est false un message d'erreur est affiché 
       }else{
         //message d'erreur
         throw new Error ( reponseForm.innerText = "Erreur : " + APIreponse.status);
       }
     })
     /**
-     * Si promesse précèdente true alors ce code est executé
+     * Si promesse précédente true alors ce code est exécuté
      * data correspond à la valeur renvoyée par la méthode APIreponse.json()
      */
     .then(data => {
@@ -905,10 +905,10 @@ function tousLesChampsRemplis() {
      */
     indexHTMLgalleryElement.appendChild(indexJsfigureElement);
 
-    // Change le style de modal2 en la faisant disparaitre après l'ajout d'un projet après 1 seconde
+    // Change le style de modal2 en la faisant disparaître après l'ajout d'un projet après 1 seconde
     setTimeout(() => {
       document.getElementById('modal2').style.display = 'none';
-      //Appele de fonction nettoyerFichierInput 
+      //Appelle de fonction nettoyerFichierInput 
       nettoyerFichierInput()
 
       /**

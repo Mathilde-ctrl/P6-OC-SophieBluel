@@ -8,13 +8,11 @@
  * @date 2023-06
  */
 
-//--- Affichage des projets sur la page web index.html ---
-   
+//--- Affichage des projets sur la page web index.html et indexedit.html ---
 /**
  * Effectue une requête http 'GET' 
  * 
  * Permet de récupérer les données des projets 
- * 
  */
 fetch('http://localhost:5678/api/works') 
   // APIreponse correspond à la reponse renvoyer par la requête 
@@ -22,7 +20,7 @@ fetch('http://localhost:5678/api/works')
   .then(APIreponse => APIreponse.json())
   // Les données récupérées sont accessibles dans 'tousProjetsJSON'
   .then(tousProjetsJSON => {   
-    
+      
     //--- Déclare mes fonctions ---   
    /**
     * Fonction afficheProjetsGalerie
@@ -96,7 +94,7 @@ fetch('http://localhost:5678/api/works')
       };
     } 
 
-    // Fonction pour filtrer les projets par catégorie
+    //--- Fonction pour filtrer les projets par catégorie ---
     /**
      * Fonction filtreMesProjets
      * 
@@ -200,7 +198,7 @@ fetch('http://localhost:5678/api/works')
          * @var HTMLButtonElement boutonAvecCategorie - Création d'une bouton 
          */
         const boutonAvecCategorie = document.createElement('button');
-        //Ajout du nom de la categorie dans le bouton
+        //Ajout du nom de la catégorie dans le bouton
         boutonAvecCategorie.textContent = projet.category.name;
         //Ajout du bouton de filtrage créé dans le conteneur div
         divFiltre.appendChild(boutonAvecCategorie);
@@ -226,7 +224,7 @@ fetch('http://localhost:5678/api/works')
              * @var Element bouton - Assigne le bouton actuel avec index 'j'
              */
             const bouton = boutons[j];
-            //méthode ClassList.toggle pour ajouter ou supprimer la classe 'active' si l'un des boutons avec catégorie est cliquer
+            //méthode ClassList.toggle pour ajouter ou supprimer la classe 'active' si l'un des boutons avec catégorie est cliqué
             bouton.classList.toggle('active', bouton === boutonAvecCategorie);
           }
         });

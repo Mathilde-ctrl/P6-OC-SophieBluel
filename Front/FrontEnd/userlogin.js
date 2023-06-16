@@ -32,7 +32,7 @@ formulaire.addEventListener('submit', (evenement) => {
   const password = document.getElementById('password').value;
 
   /**
-   * @var objet utilisateur contient les valeurs des propriétés email et password
+   * @var objet utilisateur contient les valeurs de email et password
    */
   const utilisateur = {
     email: email,
@@ -50,7 +50,7 @@ formulaire.addEventListener('submit', (evenement) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    //Convertit l'objet utilisateur en chaine JSON pour l'envoyer dans la requête
+    //Convertit l'objet utilisateur en chaîne JSON pour l'envoyer dans la requête
     body: JSON.stringify(utilisateur),
   })
     /**
@@ -68,16 +68,16 @@ formulaire.addEventListener('submit', (evenement) => {
         //Convertit JSON pour être utilisé par JavaScript
         return APIreponse.json();
       } else {
-        //Si la reponse est false un message d'erreur est affiché 
+        //Si la réponse est false un message d'erreur est affiché 
         //La promesse est envoyé a .catch
         throw new Error('Erreur dans l\'identifiant ou le mot de passe');
         //message enregistrer avec propriété .message dans l'objet Error
       }
     })
-    //Si promesse précèdente true alors ce code est executé
+    //Si promesse précédente true alors ce code est exécuté
     //loginReponse correspond à la valeur renvoyée par la méthode APIreponse.json()
     .then(loginReponse => {
-      //Extrait le token de de APIresponse.json() avec objet loginReponse obtenu avec la reponse de l'API   
+      //Extrait le token de de APIresponse.json() avec objet loginReponse obtenu avec la réponse de l'API   
       const token = loginReponse.token;
       //stock le token dans sessionStorage 
       sessionStorage.setItem('token', token);
@@ -85,7 +85,7 @@ formulaire.addEventListener('submit', (evenement) => {
       window.location.href = 'indexedit.html';
     })
 
-    //Si erreur précèdente alors ce code est executé
+    //Si erreur précédente alors ce code est exécuté
     .catch(error => {
       console.error(error);
 
@@ -98,7 +98,7 @@ formulaire.addEventListener('submit', (evenement) => {
        */
       const textErreurMessage = document.getElementById('texterreurmessage');
       
-      // Changement de display pour faire apparaitre zoneMessage quand une erreur ce produit
+      // Changement de display pour faire apparaître zoneMessage quand une erreur ce produit
       zoneMessage.style.display = 'flex';
       //.message = propriété pour récupérer le message d'erreur enregistré
       textErreurMessage.textContent = error.message;
@@ -127,6 +127,6 @@ const logoutLink = document.getElementById('logout');
  * Ajout d'un écouteur d'événement lors du click sur lien logoutLink 
  */
 logoutLink.addEventListener('click', () => {
-  //appel la fonction qui retire le token et redirige vers la page index.html
+  //appelle la fonction qui retire le token et redirige vers la page index.html
   logoutUtilisateur();
 });
